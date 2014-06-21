@@ -4,14 +4,23 @@ var mssql = require('mssql');
 
 var sprintf = require('util').format;
 
-var deferredConnection = Q.defer();
-var connection = new mssql.Connection(methods.uri, function (error) {
-	if (error) {
-		deferredConnection.reject(error);
-	} else {
-		deferredConnection.resolve(connection);
+var deferredConnection;
+var connectionPromise;
+
+function connect () {
+	if (connectionPromise) {
+		return connectionPromise;
 	}
-});
+	deferredConnection = Q.defer();
+	var connection = new mssql.Connection(methods.uri, function (error) {
+		if (error) {
+			deferredConnection.reject(error);
+		} else {
+			deferredConnection.resolve(connection);
+		}
+	});
+	return connectionPromise = deferredConnection.promise;
+}
 
 function renameNamedParameters (sql) {
 	return sql.replace(/\$(\d+?)/g, function (m, g) {
@@ -76,7 +85,7 @@ function executeRequest (connection, sql) {
 
 var methods = {
 	query: function (sql, params) {
-		return deferredConnection.promise.then(function (connection) {
+		return connect().then(function (connection) {
 			if (params) {
 				return executePreparedStatement(connection, sql, params);
 			} else {

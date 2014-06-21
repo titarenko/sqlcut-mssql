@@ -1,6 +1,6 @@
 {
   "name": "mymssql",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Opinionated wrapper around MS SQL client API.",
   "main": "index.js",
   "dependencies": {
