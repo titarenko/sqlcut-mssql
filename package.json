@@ -1,7 +1,7 @@
 {
-  "name": "mymssql",
-  "version": "0.1.1",
-  "description": "Opinionated wrapper around MS SQL client API.",
+  "name": "sqlcut-mssql",
+  "version": "0.1.0",
+  "description": "MS SQL API adapter for sqlcut module",
   "main": "index.js",
   "dependencies": {
     "lodash": "^2.4.1",
@@ -11,7 +11,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/titarenko/mymssql.git"
+    "url": "git://github.com/titarenko/sqlcut-mssql.git"
   },
   "keywords": [
     "mssql",
@@ -21,7 +21,7 @@
   "author": "Constantin Titarenko",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/titarenko/mymssql/issues"
+    "url": "https://github.com/titarenko/sqlcut-mssql/issues"
   },
-  "homepage": "https://github.com/titarenko/mymssql"
+  "homepage": "https://github.com/titarenko/sqlcut-mssql"
 }
