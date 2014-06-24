@@ -94,13 +94,27 @@ function ctor (connectionParameters) {
 	}
 	
 	return function (sql, params) {
-		return connect().then(function (connection) {
+		var isInsert = sql.indexOf('insert into') == 0;
+
+		if (isInsert) {
+			sql = sql.replace(') values (?', ') output inserted.id values (?');
+		}
+
+		var result = connect().then(function (connection) {
 			if (params) {
 				return executePreparedStatement(connection, sql, params);
 			} else {
 				return executeRequest(connection, sql);
 			} 
 		});
+
+		if (isInsert) {
+			result = result.then(function (rows) {
+				return rows[0].id;
+			});
+		}
+
+		return result;
 	};
 }
 
