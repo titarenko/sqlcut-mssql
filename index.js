@@ -3,7 +3,7 @@ var _ = require('lodash');
 var mssql = require('mssql');
 
 function renameNamedParameters (sql) {
-	var index = 1;
+	var index = 0;
 	return sql.replace(/\?/g, function () {
 		return '@param' + index++;
 	});
@@ -12,7 +12,7 @@ function renameNamedParameters (sql) {
 function nameDataProperties (data) {
 	var result = {};
 	for (var i in data) {
-		result['param' + (i + 1)] = data[i];
+		result['param' + i] = data[i];
 	}
 	return result;
 }
@@ -29,7 +29,7 @@ function getMssqlType (value) {
 
 function bindParameters (statement, data) {
 	for (var i in data) {
-		statement.input('param' + (i + 1), getMssqlType(data[i]));
+		statement.input('param' + i, getMssqlType(data[i]));
 	}
 	return statement;
 }
@@ -97,7 +97,7 @@ function ctor (connectionParameters) {
 		var isInsert = sql.indexOf('insert into') == 0;
 
 		if (isInsert) {
-			sql = sql.replace(') values (?', ') output inserted.id values (?');
+			sql = sql.replace(') values ( ?', ') output inserted.* values (?');
 		}
 
 		var result = connect().then(function (connection) {

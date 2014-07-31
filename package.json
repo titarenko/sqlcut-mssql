@@ -1,6 +1,6 @@
 {
   "name": "sqlcut-mssql",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MS SQL API adapter for sqlcut module",
   "main": "index.js",
   "dependencies": {
